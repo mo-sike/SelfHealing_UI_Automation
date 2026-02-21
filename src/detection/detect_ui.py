@@ -5,7 +5,7 @@ import cv2
 model = YOLO("yolov5s.pt")  # you can replace with custom weights later
 
 # Load screenshot
-image_path = "sample_ui.png"
+image_path = r"C:\Workspcae\SelfHealing_UI_Automation\src\sample_ui.jpg"
 
 # Run detection
 results = model(image_path)
@@ -20,4 +20,5 @@ confidences = results[0].boxes.conf
 
 print("Detected Controls:")
 for i in range(len(boxes)):
-    print(f"Box: {boxes[i].tolist()}, Class: {labels[i]}, Confidence: {confidences[i]}")
+    print(
+        f"Box: {boxes[i].tolist()}, Class: {labels[i]}, Confidence: {confidences[i]}")
