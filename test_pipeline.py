@@ -18,7 +18,7 @@ matcher = GraphMatcher()
 
 # Load two RICO screens
 detectionsA = parser.parse_json("data/raw/101.json")
-detectionsB = parser.parse_json("data/raw/101.json")  # for now use same file
+detectionsB = parser.parse_json("data/raw/102.json")  # for now use same file
 
 print(f"Screen A Controls: {len(detectionsA)}")
 print(f"Screen B Controls: {len(detectionsB)}")

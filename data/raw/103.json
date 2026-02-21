@@ -1,0 +1,1321 @@
+{
+  "activity_name": "com.tracfone.straighttalk.myaccount/com.tracfone.generic.myaccountcommonui.activity.APNSettingsActivity", 
+  "activity": {
+    "root": {
+      "scrollable-horizontal": false, 
+      "draw": true, 
+      "ancestors": [
+        "android.widget.FrameLayout", 
+        "android.view.ViewGroup", 
+        "android.view.View", 
+        "java.lang.Object"
+      ], 
+      "clickable": false, 
+      "pressed": "not_pressed", 
+      "focusable": false, 
+      "long-clickable": false, 
+      "enabled": true, 
+      "bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "visibility": "visible", 
+      "content-desc": [
+        null
+      ], 
+      "rel-bounds": [
+        0, 
+        0, 
+        1440, 
+        2560
+      ], 
+      "focused": false, 
+      "selected": false, 
+      "scrollable-vertical": false, 
+      "children": [
+        {
+          "scrollable-horizontal": false, 
+          "draw": true, 
+          "ancestors": [
+            "android.view.ViewGroup", 
+            "android.view.View", 
+            "java.lang.Object"
+          ], 
+          "clickable": false, 
+          "pressed": "not_pressed", 
+          "focusable": false, 
+          "long-clickable": false, 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "visibility": "visible", 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            2392
+          ], 
+          "focused": false, 
+          "selected": false, 
+          "scrollable-vertical": false, 
+          "children": [
+            {
+              "resource-id": "android:id/action_mode_bar_stub", 
+              "adapter-view": false, 
+              "pointer": "562f99a", 
+              "scrollable-horizontal": false, 
+              "ancestors": [
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "selected": false, 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "draw": true, 
+              "focusable": false, 
+              "long-clickable": false, 
+              "visibility": "gone", 
+              "focused": false, 
+              "clickable": false, 
+              "abs-pos": true, 
+              "class": "android.view.ViewStub", 
+              "visible-to-user": false, 
+              "package": "android", 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                0, 
+                0, 
+                0
+              ], 
+              "pressed": "not_pressed", 
+              "scrollable-vertical": false
+            }, 
+            {
+              "scrollable-horizontal": false, 
+              "draw": true, 
+              "ancestors": [
+                "android.view.ViewGroup", 
+                "android.view.View", 
+                "java.lang.Object"
+              ], 
+              "clickable": false, 
+              "pressed": "not_pressed", 
+              "focusable": false, 
+              "long-clickable": false, 
+              "enabled": true, 
+              "bounds": [
+                0, 
+                84, 
+                1440, 
+                2392
+              ], 
+              "visibility": "visible", 
+              "content-desc": [
+                null
+              ], 
+              "rel-bounds": [
+                0, 
+                84, 
+                1440, 
+                2392
+              ], 
+              "focused": false, 
+              "selected": false, 
+              "scrollable-vertical": false, 
+              "children": [
+                {
+                  "resource-id": "com.tracfone.straighttalk.myaccount:id/action_bar_root", 
+                  "adapter-view": false, 
+                  "pointer": "b0f1aa8", 
+                  "children": [
+                    {
+                      "resource-id": "com.tracfone.straighttalk.myaccount:id/action_mode_bar_stub", 
+                      "adapter-view": false, 
+                      "pointer": "57db9c1", 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        0, 
+                        0
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "gone", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.support.v7.widget.ViewStubCompat", 
+                      "visible-to-user": false, 
+                      "package": "com.tracfone.straighttalk.myaccount", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        0, 
+                        84
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }, 
+                    {
+                      "resource-id": "android:id/content", 
+                      "adapter-view": false, 
+                      "pointer": "1671566", 
+                      "children": [
+                        {
+                          "scrollable-horizontal": false, 
+                          "draw": true, 
+                          "ancestors": [
+                            "android.view.ViewGroup", 
+                            "android.view.View", 
+                            "java.lang.Object"
+                          ], 
+                          "clickable": false, 
+                          "pressed": "not_pressed", 
+                          "focusable": false, 
+                          "long-clickable": false, 
+                          "enabled": true, 
+                          "bounds": [
+                            0, 
+                            84, 
+                            1440, 
+                            2392
+                          ], 
+                          "visibility": "visible", 
+                          "content-desc": [
+                            null
+                          ], 
+                          "rel-bounds": [
+                            0, 
+                            0, 
+                            1440, 
+                            2308
+                          ], 
+                          "focused": false, 
+                          "selected": false, 
+                          "scrollable-vertical": false, 
+                          "children": [
+                            {
+                              "resource-id": "com.tracfone.straighttalk.myaccount:id/custom_toolbar", 
+                              "adapter-view": false, 
+                              "pointer": "8f3954", 
+                              "children": [
+                                {
+                                  "resource-id": "com.tracfone.straighttalk.myaccount:id/my_toolbar", 
+                                  "adapter-view": false, 
+                                  "pointer": "b6b30fd", 
+                                  "children": [
+                                    {
+                                      "text": "APN Settings", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/toolbar_title", 
+                                      "adapter-view": false, 
+                                      "pointer": "63f21f2", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        196, 
+                                        60, 
+                                        1272, 
+                                        136
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        196, 
+                                        144, 
+                                        1272, 
+                                        220
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "My Account", 
+                                      "scrollable-vertical": false, 
+                                      "adapter-view": false, 
+                                      "pointer": "8656043", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        196, 
+                                        51, 
+                                        196, 
+                                        144
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "font-family": "sans-serif-medium", 
+                                      "class": "android.widget.TextView", 
+                                      "visible-to-user": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        196, 
+                                        135, 
+                                        196, 
+                                        228
+                                      ], 
+                                      "pressed": "not_pressed"
+                                    }, 
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": false, 
+                                      "ancestors": [
+                                        "android.widget.ImageView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": true, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": true, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        0, 
+                                        84, 
+                                        196, 
+                                        280
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        "Navigate up"
+                                      ], 
+                                      "rel-bounds": [
+                                        0, 
+                                        0, 
+                                        196, 
+                                        196
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "d5096c0", 
+                                      "class": "android.widget.ImageButton", 
+                                      "visible-to-user": true
+                                    }, 
+                                    {
+                                      "scrollable-horizontal": false, 
+                                      "draw": true, 
+                                      "ancestors": [
+                                        "android.support.v7.widget.LinearLayoutCompat", 
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "clickable": false, 
+                                      "pressed": "not_pressed", 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        1272, 
+                                        84, 
+                                        1440, 
+                                        280
+                                      ], 
+                                      "visibility": "visible", 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        1272, 
+                                        0, 
+                                        1440, 
+                                        196
+                                      ], 
+                                      "focused": false, 
+                                      "selected": false, 
+                                      "scrollable-vertical": false, 
+                                      "children": [
+                                        {
+                                          "text": "", 
+                                          "resource-id": "com.tracfone.straighttalk.myaccount:id/chat_actionbar", 
+                                          "adapter-view": false, 
+                                          "pointer": "a196b3e", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.support.v7.widget.AppCompatTextView", 
+                                            "android.widget.TextView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            "Chat"
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            14, 
+                                            168, 
+                                            182
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": true, 
+                                          "long-clickable": true, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": true, 
+                                          "abs-pos": true, 
+                                          "font-family": "sans-serif-medium", 
+                                          "class": "android.support.v7.view.menu.ActionMenuItemView", 
+                                          "visible-to-user": true, 
+                                          "package": "com.tracfone.straighttalk.myaccount", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            1272, 
+                                            98, 
+                                            1440, 
+                                            266
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "adapter-view": false, 
+                                      "abs-pos": true, 
+                                      "pointer": "1bedff9", 
+                                      "class": "android.support.v7.widget.ActionMenuView", 
+                                      "visible-to-user": true
+                                    }
+                                  ], 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    0, 
+                                    0, 
+                                    1440, 
+                                    196
+                                  ], 
+                                  "draw": true, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "class": "android.support.v7.widget.Toolbar", 
+                                  "visible-to-user": true, 
+                                  "package": "com.tracfone.straighttalk.myaccount", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    0, 
+                                    84, 
+                                    1440, 
+                                    280
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }
+                              ], 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                0, 
+                                1440, 
+                                196
+                              ], 
+                              "draw": true, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "class": "android.widget.LinearLayout", 
+                              "visible-to-user": true, 
+                              "package": "com.tracfone.straighttalk.myaccount", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                84, 
+                                1440, 
+                                280
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "scrollable-horizontal": false, 
+                              "draw": false, 
+                              "ancestors": [
+                                "java.lang.Object"
+                              ], 
+                              "clickable": false, 
+                              "pressed": "not_pressed", 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                280, 
+                                1440, 
+                                291
+                              ], 
+                              "visibility": "visible", 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                196, 
+                                1440, 
+                                207
+                              ], 
+                              "focused": false, 
+                              "selected": false, 
+                              "scrollable-vertical": false, 
+                              "adapter-view": false, 
+                              "abs-pos": true, 
+                              "pointer": "b73bd9f", 
+                              "class": "android.view.View", 
+                              "visible-to-user": true
+                            }, 
+                            {
+                              "text": "HOW TO UPDATE DATA SETTINGS", 
+                              "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_Label", 
+                              "adapter-view": false, 
+                              "pointer": "c085eec", 
+                              "scrollable-horizontal": false, 
+                              "ancestors": [
+                                "android.widget.TextView", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "selected": false, 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                207, 
+                                1440, 
+                                283
+                              ], 
+                              "draw": false, 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "visibility": "visible", 
+                              "focused": false, 
+                              "clickable": false, 
+                              "abs-pos": true, 
+                              "font-family": "default", 
+                              "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                              "visible-to-user": true, 
+                              "package": "com.tracfone.straighttalk.myaccount", 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                291, 
+                                1440, 
+                                367
+                              ], 
+                              "pressed": "not_pressed", 
+                              "scrollable-vertical": false
+                            }, 
+                            {
+                              "scrollable-horizontal": false, 
+                              "draw": true, 
+                              "ancestors": [
+                                "android.view.ViewGroup", 
+                                "android.view.View", 
+                                "java.lang.Object"
+                              ], 
+                              "clickable": false, 
+                              "pressed": "not_pressed", 
+                              "focusable": false, 
+                              "long-clickable": false, 
+                              "enabled": true, 
+                              "bounds": [
+                                0, 
+                                402, 
+                                1440, 
+                                1737
+                              ], 
+                              "visibility": "visible", 
+                              "content-desc": [
+                                null
+                              ], 
+                              "rel-bounds": [
+                                0, 
+                                318, 
+                                1440, 
+                                1653
+                              ], 
+                              "focused": false, 
+                              "selected": false, 
+                              "scrollable-vertical": false, 
+                              "children": [
+                                {
+                                  "text": "Enter the information requested below to receive instructions on how to update your phone's settings. This is needed to send MMS and access the Internet browser.", 
+                                  "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_Text", 
+                                  "adapter-view": false, 
+                                  "pointer": "5bcfd4a", 
+                                  "scrollable-horizontal": false, 
+                                  "ancestors": [
+                                    "android.widget.TextView", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "selected": false, 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    35, 
+                                    35, 
+                                    1405, 
+                                    309
+                                  ], 
+                                  "draw": false, 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "visibility": "visible", 
+                                  "focused": false, 
+                                  "clickable": false, 
+                                  "abs-pos": true, 
+                                  "font-family": "default", 
+                                  "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                                  "visible-to-user": true, 
+                                  "package": "com.tracfone.straighttalk.myaccount", 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    35, 
+                                    437, 
+                                    1405, 
+                                    711
+                                  ], 
+                                  "pressed": "not_pressed", 
+                                  "scrollable-vertical": false
+                                }, 
+                                {
+                                  "scrollable-horizontal": false, 
+                                  "draw": true, 
+                                  "ancestors": [
+                                    "android.view.ViewGroup", 
+                                    "android.view.View", 
+                                    "java.lang.Object"
+                                  ], 
+                                  "clickable": false, 
+                                  "pressed": "not_pressed", 
+                                  "focusable": false, 
+                                  "long-clickable": false, 
+                                  "enabled": true, 
+                                  "bounds": [
+                                    35, 
+                                    746, 
+                                    1405, 
+                                    1702
+                                  ], 
+                                  "visibility": "visible", 
+                                  "content-desc": [
+                                    null
+                                  ], 
+                                  "rel-bounds": [
+                                    35, 
+                                    344, 
+                                    1405, 
+                                    1300
+                                  ], 
+                                  "focused": false, 
+                                  "selected": false, 
+                                  "scrollable-vertical": false, 
+                                  "children": [
+                                    {
+                                      "text": "ENTER PHONE NUMBER", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_MinLabel", 
+                                      "adapter-view": false, 
+                                      "pointer": "b927dd8", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        35, 
+                                        35, 
+                                        1335, 
+                                        111
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        70, 
+                                        781, 
+                                        1370, 
+                                        857
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_MinInput", 
+                                      "adapter-view": false, 
+                                      "pointer": "cc79531", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.EditText", 
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        35, 
+                                        146, 
+                                        1335, 
+                                        286
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": true, 
+                                      "long-clickable": true, 
+                                      "visibility": "visible", 
+                                      "text-hint": "(xxx)xxx-xxxx", 
+                                      "focused": true, 
+                                      "clickable": true, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.EditTextCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        70, 
+                                        892, 
+                                        1370, 
+                                        1032
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "-- OR --", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_OrLabel", 
+                                      "adapter-view": false, 
+                                      "pointer": "555a416", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        35, 
+                                        321, 
+                                        1335, 
+                                        397
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        70, 
+                                        1067, 
+                                        1370, 
+                                        1143
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "ENTER SERIAL OR SIM CARD NUMBER", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_EsnLabel", 
+                                      "adapter-view": false, 
+                                      "pointer": "c79c197", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        35, 
+                                        432, 
+                                        1335, 
+                                        508
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        70, 
+                                        1178, 
+                                        1370, 
+                                        1254
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_EsnInput", 
+                                      "adapter-view": false, 
+                                      "pointer": "a9d9f84", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.EditText", 
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        35, 
+                                        543, 
+                                        1335, 
+                                        683
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": true, 
+                                      "long-clickable": true, 
+                                      "visibility": "visible", 
+                                      "text-hint": "Enter Serial Number", 
+                                      "focused": false, 
+                                      "clickable": true, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.EditTextCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        70, 
+                                        1289, 
+                                        1370, 
+                                        1429
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "SELECT YOUR PHONE TYPE", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_PhoneTypeLabel", 
+                                      "adapter-view": false, 
+                                      "pointer": "fcf536d", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        0, 
+                                        0, 
+                                        0, 
+                                        0
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "gone", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont", 
+                                      "visible-to-user": false, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        35, 
+                                        746, 
+                                        35, 
+                                        746
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_phoneType", 
+                                      "adapter-view": false, 
+                                      "pointer": "9ffeba2", 
+                                      "children": [
+                                        {
+                                          "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_PhoneTypeSpinner", 
+                                          "adapter-view": true, 
+                                          "pointer": "d0ee033", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.Spinner", 
+                                            "android.widget.AbsSpinner", 
+                                            "android.widget.AdapterView", 
+                                            "android.view.ViewGroup", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": true, 
+                                          "abs-pos": true, 
+                                          "class": "android.support.v7.widget.AppCompatSpinner", 
+                                          "visible-to-user": false, 
+                                          "package": "com.tracfone.straighttalk.myaccount", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            35, 
+                                            746, 
+                                            35, 
+                                            746
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }, 
+                                        {
+                                          "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_Spinner_Icon", 
+                                          "adapter-view": false, 
+                                          "pointer": "2172ff0", 
+                                          "scrollable-horizontal": false, 
+                                          "ancestors": [
+                                            "android.widget.ImageView", 
+                                            "android.view.View", 
+                                            "java.lang.Object"
+                                          ], 
+                                          "selected": false, 
+                                          "content-desc": [
+                                            null
+                                          ], 
+                                          "rel-bounds": [
+                                            0, 
+                                            0, 
+                                            0, 
+                                            0
+                                          ], 
+                                          "draw": false, 
+                                          "focusable": false, 
+                                          "long-clickable": false, 
+                                          "visibility": "visible", 
+                                          "focused": false, 
+                                          "clickable": false, 
+                                          "abs-pos": true, 
+                                          "class": "android.support.v7.widget.AppCompatImageView", 
+                                          "visible-to-user": false, 
+                                          "package": "com.tracfone.straighttalk.myaccount", 
+                                          "enabled": true, 
+                                          "bounds": [
+                                            35, 
+                                            746, 
+                                            35, 
+                                            746
+                                          ], 
+                                          "pressed": "not_pressed", 
+                                          "scrollable-vertical": false
+                                        }
+                                      ], 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.view.ViewGroup", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        0, 
+                                        0, 
+                                        0, 
+                                        0
+                                      ], 
+                                      "draw": true, 
+                                      "focusable": false, 
+                                      "long-clickable": false, 
+                                      "visibility": "gone", 
+                                      "focused": false, 
+                                      "clickable": false, 
+                                      "abs-pos": true, 
+                                      "class": "android.widget.RelativeLayout", 
+                                      "visible-to-user": false, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        35, 
+                                        746, 
+                                        35, 
+                                        746
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }, 
+                                    {
+                                      "text": "SEARCH", 
+                                      "resource-id": "com.tracfone.straighttalk.myaccount:id/apnSettings_SearchButton", 
+                                      "adapter-view": false, 
+                                      "pointer": "81ab969", 
+                                      "scrollable-horizontal": false, 
+                                      "ancestors": [
+                                        "android.widget.Button", 
+                                        "android.widget.TextView", 
+                                        "android.view.View", 
+                                        "java.lang.Object"
+                                      ], 
+                                      "selected": false, 
+                                      "content-desc": [
+                                        null
+                                      ], 
+                                      "rel-bounds": [
+                                        35, 
+                                        753, 
+                                        1335, 
+                                        921
+                                      ], 
+                                      "draw": false, 
+                                      "focusable": true, 
+                                      "long-clickable": false, 
+                                      "visibility": "visible", 
+                                      "focused": false, 
+                                      "clickable": true, 
+                                      "abs-pos": true, 
+                                      "font-family": "default", 
+                                      "class": "com.tracfone.generic.myaccountuilibrary.ui.ButtonCustomFont", 
+                                      "visible-to-user": true, 
+                                      "package": "com.tracfone.straighttalk.myaccount", 
+                                      "enabled": true, 
+                                      "bounds": [
+                                        70, 
+                                        1499, 
+                                        1370, 
+                                        1667
+                                      ], 
+                                      "pressed": "not_pressed", 
+                                      "scrollable-vertical": false
+                                    }
+                                  ], 
+                                  "adapter-view": false, 
+                                  "abs-pos": true, 
+                                  "pointer": "7e094bb", 
+                                  "class": "android.widget.LinearLayout", 
+                                  "visible-to-user": true
+                                }
+                              ], 
+                              "adapter-view": false, 
+                              "abs-pos": true, 
+                              "pointer": "30482b5", 
+                              "class": "android.widget.LinearLayout", 
+                              "visible-to-user": true
+                            }
+                          ], 
+                          "adapter-view": false, 
+                          "abs-pos": true, 
+                          "pointer": "44d60a7", 
+                          "class": "android.widget.LinearLayout", 
+                          "visible-to-user": true
+                        }
+                      ], 
+                      "scrollable-horizontal": false, 
+                      "ancestors": [
+                        "android.widget.FrameLayout", 
+                        "android.view.ViewGroup", 
+                        "android.view.View", 
+                        "java.lang.Object"
+                      ], 
+                      "selected": false, 
+                      "content-desc": [
+                        null
+                      ], 
+                      "rel-bounds": [
+                        0, 
+                        0, 
+                        1440, 
+                        2308
+                      ], 
+                      "draw": true, 
+                      "focusable": false, 
+                      "long-clickable": false, 
+                      "visibility": "visible", 
+                      "focused": false, 
+                      "clickable": false, 
+                      "abs-pos": true, 
+                      "class": "android.support.v7.widget.ContentFrameLayout", 
+                      "visible-to-user": true, 
+                      "package": "android", 
+                      "enabled": true, 
+                      "bounds": [
+                        0, 
+                        84, 
+                        1440, 
+                        2392
+                      ], 
+                      "pressed": "not_pressed", 
+                      "scrollable-vertical": false
+                    }
+                  ], 
+                  "scrollable-horizontal": false, 
+                  "ancestors": [
+                    "android.widget.LinearLayout", 
+                    "android.view.ViewGroup", 
+                    "android.view.View", 
+                    "java.lang.Object"
+                  ], 
+                  "selected": false, 
+                  "content-desc": [
+                    null
+                  ], 
+                  "rel-bounds": [
+                    0, 
+                    0, 
+                    1440, 
+                    2308
+                  ], 
+                  "draw": true, 
+                  "focusable": false, 
+                  "long-clickable": false, 
+                  "visibility": "visible", 
+                  "focused": false, 
+                  "clickable": false, 
+                  "abs-pos": true, 
+                  "class": "android.support.v7.widget.FitWindowsLinearLayout", 
+                  "visible-to-user": true, 
+                  "package": "com.tracfone.straighttalk.myaccount", 
+                  "enabled": true, 
+                  "bounds": [
+                    0, 
+                    84, 
+                    1440, 
+                    2392
+                  ], 
+                  "pressed": "not_pressed", 
+                  "scrollable-vertical": false
+                }
+              ], 
+              "adapter-view": false, 
+              "abs-pos": true, 
+              "pointer": "a4d62cb", 
+              "class": "android.widget.FrameLayout", 
+              "visible-to-user": true
+            }
+          ], 
+          "adapter-view": false, 
+          "abs-pos": true, 
+          "pointer": "3ee7e45", 
+          "class": "android.widget.LinearLayout", 
+          "visible-to-user": true
+        }, 
+        {
+          "resource-id": "android:id/navigationBarBackground", 
+          "adapter-view": false, 
+          "pointer": "8151fee", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            2392, 
+            1440, 
+            2560
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }, 
+        {
+          "resource-id": "android:id/statusBarBackground", 
+          "adapter-view": false, 
+          "pointer": "cd4c8f", 
+          "scrollable-horizontal": false, 
+          "ancestors": [
+            "java.lang.Object"
+          ], 
+          "selected": false, 
+          "content-desc": [
+            null
+          ], 
+          "rel-bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "draw": false, 
+          "focusable": false, 
+          "long-clickable": false, 
+          "visibility": "visible", 
+          "focused": false, 
+          "clickable": false, 
+          "abs-pos": true, 
+          "class": "android.view.View", 
+          "visible-to-user": true, 
+          "package": "android", 
+          "enabled": true, 
+          "bounds": [
+            0, 
+            0, 
+            1440, 
+            84
+          ], 
+          "pressed": "not_pressed", 
+          "scrollable-vertical": false
+        }
+      ], 
+      "adapter-view": false, 
+      "abs-pos": true, 
+      "pointer": "d55cebc", 
+      "class": "com.android.internal.policy.PhoneWindow$DecorView", 
+      "visible-to-user": true
+    }, 
+    "added_fragments": [], 
+    "active_fragments": []
+  }, 
+  "is_keyboard_deployed": false, 
+  "request_id": "2274"
+}
