@@ -16,4 +16,4 @@ Traditional UI automation approaches rely on DOM-based locators and pixel-wise c
 
 ## References
 
-[Artificial Intelligence for Context-Aware Visual Change Detection in Software Test Automation]('https://arxiv.org/abs/2405.00874')
+[Artificial Intelligence for Context-Aware Visual Change Detection in Software Test Automation](https://arxiv.org/abs/2405.00874)
