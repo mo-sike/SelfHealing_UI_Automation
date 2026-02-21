@@ -11,6 +11,7 @@ Traditional UI automation approaches rely on DOM-based locators and pixel-wise c
 - Applies recursive similarity-based graph matching
 - Detects meaningful UI changes
 - Visualizes detected changes via heatmaps
+- Next Roadmap to be planned
 
 ---
 
