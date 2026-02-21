@@ -1,0 +1,246 @@
+{
+  "ancestors": [
+    "android.widget.FrameLayout",
+    "android.view.ViewGroup",
+    "android.view.View",
+    "java.lang.Object"
+  ],
+  "class": "com.android.internal.policy.PhoneWindow$DecorView",
+  "bounds": [
+    36,
+    323,
+    1404,
+    2236
+  ],
+  "clickable": false,
+  "children": [
+    {
+      "ancestors": [
+        "android.view.ViewGroup",
+        "android.view.View",
+        "java.lang.Object"
+      ],
+      "class": "android.widget.LinearLayout",
+      "bounds": [
+        36,
+        323,
+        1404,
+        2236
+      ],
+      "clickable": false,
+      "children": [
+        {
+          "text": "CANCEL",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/cancel_login_btn",
+          "ancestors": [
+            "android.widget.Button",
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.ButtonCustomFont",
+          "bounds": [
+            545,
+            2096,
+            895,
+            2201
+          ],
+          "componentLabel": "Text Button",
+          "textButtonClass": "back"
+        },
+        {
+          "text": "    LOG IN WITH YOUR EMAIL",
+          "ancestors": [
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": false,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont",
+          "bounds": [
+            36,
+            323,
+            1404,
+            421
+          ],
+          "componentLabel": "Text"
+        },
+        {
+          "text": "  Keep Me Logged In",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/login_save_chk",
+          "ancestors": [
+            "android.widget.CheckBox",
+            "android.widget.CompoundButton",
+            "android.widget.Button",
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "android.support.v7.widget.AppCompatCheckBox",
+          "bounds": [
+            89,
+            1034,
+            669,
+            1110
+          ],
+          "componentLabel": "Text Button"
+        },
+        {
+          "text": "    OR LOG IN WITH FACEBOOK",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/login_fb_text",
+          "ancestors": [
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": false,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont",
+          "bounds": [
+            36,
+            1198,
+            1404,
+            1296
+          ],
+          "componentLabel": "Text"
+        },
+        {
+          "text": "Log in with Facebook",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/login_fb_button",
+          "ancestors": [
+            "com.facebook.FacebookButtonBase",
+            "android.widget.Button",
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.facebook.login.widget.LoginButton",
+          "bounds": [
+            89,
+            1349,
+            1351,
+            1480
+          ],
+          "componentLabel": "Text Button",
+          "textButtonClass": "facebook"
+        },
+        {
+          "text": "Create Account",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/create_account_button",
+          "ancestors": [
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont",
+          "bounds": [
+            1064,
+            1533,
+            1351,
+            1590
+          ],
+          "componentLabel": "Text Button",
+          "textButtonClass": "create"
+        },
+        {
+          "text": "",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/et_new_login_username",
+          "ancestors": [
+            "android.widget.EditText",
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.EditTextCustomFont",
+          "bounds": [
+            89,
+            485,
+            1351,
+            590
+          ],
+          "componentLabel": "Input"
+        },
+        {
+          "text": "",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/et_new_login_password",
+          "ancestors": [
+            "android.widget.EditText",
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.EditTextCustomFont",
+          "bounds": [
+            89,
+            608,
+            1351,
+            713
+          ],
+          "componentLabel": "Input"
+        },
+        {
+          "text": "LOGIN",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/login_username_btn",
+          "ancestors": [
+            "android.widget.Button",
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.ButtonCustomFont",
+          "bounds": [
+            89,
+            731,
+            1351,
+            871
+          ],
+          "componentLabel": "Text Button",
+          "textButtonClass": "login"
+        },
+        {
+          "text": "Forgot Password?",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/et_forgot_password",
+          "ancestors": [
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont",
+          "bounds": [
+            89,
+            924,
+            430,
+            981
+          ],
+          "componentLabel": "Text Button"
+        },
+        {
+          "text": "Forgot your email?",
+          "resource-id": "com.tracfone.straighttalk.myaccount:id/et_forgot_email",
+          "ancestors": [
+            "android.widget.TextView",
+            "android.view.View",
+            "java.lang.Object"
+          ],
+          "clickable": true,
+          "class": "com.tracfone.generic.myaccountuilibrary.ui.TextViewCustomFont",
+          "bounds": [
+            1005,
+            924,
+            1351,
+            981
+          ],
+          "componentLabel": "Text Button"
+        }
+      ],
+      "componentLabel": "Modal"
+    }
+  ]
+}

@@ -2,28 +2,32 @@ import numpy as np
 from sklearn.neighbors import NearestNeighbors
 
 
-def build_graph(boxes, k=3):
-    """
-    boxes: list of bounding boxes [[x1,y1,x2,y2], ...]
-    k: number of nearest neighbors
-    """
+class UIGraphBuilder:
 
-    # Compute center points
-    centers = []
-    for box in boxes:
-        x1, y1, x2, y2 = box
-        cx = (x1 + x2) / 2
-        cy = (y1 + y2) / 2
-        centers.append([cx, cy])
+    def build_graph(self, detections, k=3):
 
-    centers = np.array(centers)
+        if len(detections) == 0:
+            return {}
 
-    # Find K nearest neighbors
-    nbrs = NearestNeighbors(n_neighbors=min(k, len(centers))).fit(centers)
-    distances, indices = nbrs.kneighbors(centers)
+        # Compute center coordinates
+        centers = []
+        for det in detections:
+            x1, y1, x2, y2 = det["bbox"]
+            cx = (x1 + x2) / 2
+            cy = (y1 + y2) / 2
+            centers.append([cx, cy])
 
-    graph = {}
-    for i, neighbors in enumerate(indices):
-        graph[i] = neighbors.tolist()
+        centers = np.array(centers)
 
-    return graph
+        # KNN based graph
+        nbrs = NearestNeighbors(n_neighbors=min(k, len(centers))).fit(centers)
+        distances, indices = nbrs.kneighbors(centers)
+
+        graph = {}
+
+        for i, neighbors in enumerate(indices):
+            # Remove self-loop
+            neighbor_list = [n for n in neighbors if n != i]
+            graph[i] = neighbor_list
+
+        return graph

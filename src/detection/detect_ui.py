@@ -1,24 +1,24 @@
 from ultralytics import YOLO
 import cv2
 
-# Load pretrained YOLOv5 model
-model = YOLO("yolov5s.pt")  # you can replace with custom weights later
 
-# Load screenshot
-image_path = r"C:\Workspcae\SelfHealing_UI_Automation\src\sample_ui.jpg"
+class UIDetector:
+    def __init__(self, model_path="yolov5s.pt"):
+        self.model = YOLO(model_path)
 
-# Run detection
-results = model(image_path)
+    def detect(self, image_path):
+        results = self.model(image_path)
 
-# Display results
-results[0].show()
+        boxes = results[0].boxes.xyxy.cpu().numpy()
+        labels = results[0].boxes.cls.cpu().numpy()
+        confidences = results[0].boxes.conf.cpu().numpy()
 
-# Extract bounding boxes
-boxes = results[0].boxes.xyxy  # bounding boxes
-labels = results[0].boxes.cls  # class ids
-confidences = results[0].boxes.conf
+        detections = []
+        for i in range(len(boxes)):
+            detections.append({
+                "bbox": boxes[i].tolist(),
+                "label": int(labels[i]),
+                "confidence": float(confidences[i])
+            })
 
-print("Detected Controls:")
-for i in range(len(boxes)):
-    print(
-        f"Box: {boxes[i].tolist()}, Class: {labels[i]}, Confidence: {confidences[i]}")
+        return detections
