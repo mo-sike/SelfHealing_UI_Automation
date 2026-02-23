@@ -21,7 +21,7 @@ class GraphMatcher:
         # weighted sum
         return 0.6 * visual + 0.4 * text
 
-    def match(self, detectionsA, detectionsB, threshold=0.5):
+    # def match(self, detectionsA, detectionsB, threshold=0.5):
 
         matches = []
         unmatched = []
@@ -40,6 +40,36 @@ class GraphMatcher:
 
             if best_score >= threshold:
                 matches.append((i, best_j, best_score))
+            else:
+                unmatched.append(i)
+
+        return matches, unmatched
+
+    def match(self, detectionsA, detectionsB, threshold=0.6):
+
+        matches = []
+        unmatched = []
+        used_B = set()
+
+        for i, detA in enumerate(detectionsA):
+
+            best_score = 0
+            best_j = None
+
+            for j, detB in enumerate(detectionsB):
+
+                if j in used_B:
+                    continue
+
+                score = self.combined_similarity(detA, detB)
+
+                if score > best_score:
+                    best_score = score
+                    best_j = j
+
+            if best_score >= threshold and best_j is not None:
+                matches.append((i, best_j, best_score))
+                used_B.add(best_j)
             else:
                 unmatched.append(i)
 
