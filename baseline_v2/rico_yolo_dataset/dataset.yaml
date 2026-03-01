@@ -1,0 +1,13 @@
+# RICO Android UI Dataset - Visual Change Detection Project
+# Phase 1 - Week 1
+
+path: C:\Workspcae\SelfHealing_UI_Automation\baseline_v2\rico_yolo_dataset
+train: images/train
+val: images/val
+test: images/test
+
+nc: 10
+names: ['button', 'text', 'input', 'image', 'icon', 'checkbox', 'toolbar', 'list_item', 'card', 'menu']
+
+# Class distribution (from full valid set before sampling)
+# {'toolbar': 34686, 'text': 592132, 'icon': 177672, 'image': 223115, 'list_item': 152091, 'card': 20989, 'input': 21640, 'button': 6135, 'menu': 11348, 'checkbox': 6342}

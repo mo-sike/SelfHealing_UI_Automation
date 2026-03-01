@@ -1,0 +1,50 @@
+{
+  "total_valid_samples": 4000,
+  "splits": {
+    "train": 3200,
+    "val": 400,
+    "test": 400
+  },
+  "class_distribution": {
+    "toolbar": 34686,
+    "text": 592132,
+    "icon": 177672,
+    "image": 223115,
+    "list_item": 152091,
+    "card": 20989,
+    "input": 21640,
+    "button": 6135,
+    "menu": 11348,
+    "checkbox": 6342
+  },
+  "target_classes": [
+    "button",
+    "text",
+    "input",
+    "image",
+    "icon",
+    "checkbox",
+    "toolbar",
+    "list_item",
+    "card",
+    "menu"
+  ],
+  "class_to_idx": {
+    "button": 0,
+    "text": 1,
+    "input": 2,
+    "image": 3,
+    "icon": 4,
+    "checkbox": 5,
+    "toolbar": 6,
+    "list_item": 7,
+    "card": 8,
+    "menu": 9
+  },
+  "stats": {
+    "train_processed": 3165,
+    "no_valid_labels": 58,
+    "val_processed": 386,
+    "test_processed": 391
+  }
+}
