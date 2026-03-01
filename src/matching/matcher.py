@@ -45,7 +45,7 @@ class GraphMatcher:
 
         return matches, unmatched
 
-    def match(self, detectionsA, detectionsB, threshold=0.6):
+    def match(self, detectionsA, detectionsB, threshold=0.5):
 
         matches = []
         unmatched = []
