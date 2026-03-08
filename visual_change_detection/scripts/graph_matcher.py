@@ -49,7 +49,7 @@ import networkx as nx
 from pathlib import Path
 from collections import defaultdict
 
-from step4_graph_builder import build_graph, run_yolo, visualise_graph
+from graph_builder import build_graph, run_yolo, visualise_graph
 from ultralytics import YOLO
 
 
@@ -204,7 +204,7 @@ def match_graphs(G1, G2, similarity_threshold=0.5):
     nodes2 = list(G2.nodes())
 
     if not nodes1 or not nodes2:
-        return [], list(nodes1), list(nodes2), [], np.array([])
+        return [], [], list(nodes2), list(nodes1), np.array([])
 
     n1, n2 = len(nodes1), len(nodes2)
     sim_matrix = np.zeros((n1, n2))
@@ -231,8 +231,9 @@ def match_graphs(G1, G2, similarity_threshold=0.5):
         matches.append((nodes1[i], nodes2[j], sim_matrix[i, j]))
 
     # Classify results
+    # changed_nodes: matched pairs whose similarity is below threshold
     changed_nodes = [
-        n1_id for n1_id, n2_id, sim in matches
+        (n1_id, n2_id, sim) for n1_id, n2_id, sim in matches
         if sim < similarity_threshold
     ]
     removed_nodes = [
@@ -264,18 +265,16 @@ def detect_changes(G1, G2, similarity_threshold=0.5):
     changed_boxes = []
     change_details = []
 
-    # Changed nodes — box from G2 (what it changed TO)
-    matched_dict = {n1: (n2, sim) for n1, n2, sim in matches}
-    for n1_id in changed_nodes:
-        n2_id, sim = matched_dict[n1_id]
+    # Changed nodes — now tuples of (n1_id, n2_id, sim)
+    for n1_id, n2_id, sim in changed_nodes:
         box = G2.nodes[n2_id]["bbox"]
         changed_boxes.append(box)
         change_details.append({
-            "type":       "changed",
-            "node_g1":    n1_id,
-            "node_g2":    n2_id,
-            "similarity": sim,
-            "class":      G1.nodes[n1_id]["class_name"],
+            "type":         "changed",
+            "node_g1":      n1_id,
+            "node_g2":      n2_id,
+            "similarity":   sim,
+            "class":        G1.nodes[n1_id]["class_name"],
             "box_original": G1.nodes[n1_id]["bbox"],
             "box_changed":  G2.nodes[n2_id]["bbox"],
         })
