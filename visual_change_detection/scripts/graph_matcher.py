@@ -120,11 +120,11 @@ def class_similarity(c1, c2):
 # Weights for combining similarity components
 # Tuned to match base paper emphasis on visual + structural
 WEIGHTS = {
-    "visual":     0.35,   # perceptual hash
-    "colour":     0.15,   # mean colour
-    "text":       0.15,   # OCR text
+    "visual":     0.40,   # perceptual hash
+    "colour":     0.25,   # mean colour
+    "text":       0.05,   # OCR text
     "class":      0.20,   # same class label
-    "structural": 0.15,   # neighbourhood overlap
+    "structural": 0.10,   # neighbourhood overlap
 }
 
 
@@ -305,6 +305,8 @@ def detect_changes(G1, G2, similarity_threshold=0.5):
             "box_changed":  box,
         })
 
+    changed_boxes = nms_boxes(changed_boxes, iou_threshold=0.4)
+
     return changed_boxes, change_details, (
         matches, changed_nodes, added_nodes, removed_nodes, sim_matrix
     )
@@ -321,6 +323,41 @@ def make_heatmap(img_h, img_w, boxes):
         y2 = min(img_h, y2)
         heatmap[y1:y2, x1:x2] = 255
     return heatmap
+
+
+def nms_boxes(boxes, iou_threshold=0.4):
+    """
+    Merge overlapping changed boxes using Non-Maximum Suppression.
+    Reduces duplicate detections of the same changed region.
+    """
+    if not boxes:
+        return boxes
+
+    boxes_arr = np.array([[b[0], b[1], b[2], b[3]] for b in boxes],
+                         dtype=np.float32)
+
+    areas = ((boxes_arr[:, 2] - boxes_arr[:, 0]) *
+             (boxes_arr[:, 3] - boxes_arr[:, 1]))
+
+    order = areas.argsort()[::-1]
+    keep = []
+
+    while order.size > 0:
+        i = order[0]
+        keep.append(i)
+
+        xx1 = np.maximum(boxes_arr[i, 0], boxes_arr[order[1:], 0])
+        yy1 = np.maximum(boxes_arr[i, 1], boxes_arr[order[1:], 1])
+        xx2 = np.minimum(boxes_arr[i, 2], boxes_arr[order[1:], 2])
+        yy2 = np.minimum(boxes_arr[i, 3], boxes_arr[order[1:], 3])
+
+        w = np.maximum(0.0, xx2 - xx1)
+        h = np.maximum(0.0, yy2 - yy1)
+
+        overlap = (w * h) / (areas[order[1:]] + 1e-6)
+        order = order[np.where(overlap <= iou_threshold)[0] + 1]
+
+    return [boxes[i] for i in keep]
 
 
 # =============================================================================
@@ -521,7 +558,7 @@ def main():
                         help="manifest.json path (batch mode)")
     parser.add_argument("--output_dir",  default=None,
                         help="Output directory (batch mode)")
-    parser.add_argument("--threshold",   type=float, default=0.5,
+    parser.add_argument("--threshold",   type=float, default=0.6,
                         help="Similarity threshold (default: 0.5)")
     parser.add_argument("--visualise",   action="store_true")
     parser.add_argument("--max_pairs",   type=int, default=None,
