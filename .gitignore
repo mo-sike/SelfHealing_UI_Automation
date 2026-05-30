@@ -2,3 +2,29 @@ venv/
 .venv/
 **/outputs/
 **/__pycache__/
+*.pyc
+
+# RICO dataset — stored at C:\dataset\rico_dir\ (not in project)
+**/data/
+
+# YOLO training run artifacts
+**/runs/
+
+# Real data — all of it (local only)
+**/real_data/
+
+# Locator inputs — local only
+**/inputs/
+
+# Project docs — local only
+project_context.md
+phase2_implementation_plan.md
+CLAUDE.md
+RUN_COMMANDS*.md
+
+# Stray / OS files
+📌
+Thumbs.db
+.DS_Store
+*.zip
+*.tar.gz
