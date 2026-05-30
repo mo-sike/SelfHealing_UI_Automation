@@ -19,6 +19,13 @@ venv/
 # Session backups — local only
 **/scripts/backup/
 
+# Data collection & scratch scripts — local only
+**/scripts/step11_collect_real_pairs.py
+**/scripts/step12_annotate_ui_diff.py
+**/scripts/step13_build_real_dataset.py
+**/scripts/step2b_extract_trace_pairs.py
+**/scripts/test.py
+
 # Project docs — local only
 project_context.md
 phase2_implementation_plan.md
