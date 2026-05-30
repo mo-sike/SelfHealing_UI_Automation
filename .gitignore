@@ -21,6 +21,9 @@ venv/
 
 # Data collection, evaluation & scratch scripts — local only
 **/scripts/evaluate.py
+**/scripts/step10_prioritise.py
+**/scripts/sweep_threshold.py
+**/scripts/sweep_weights.py
 **/scripts/step11_collect_real_pairs.py
 **/scripts/step12_annotate_ui_diff.py
 **/scripts/step13_build_real_dataset.py
