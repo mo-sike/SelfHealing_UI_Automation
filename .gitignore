@@ -16,6 +16,9 @@ venv/
 # Locator inputs — local only
 **/inputs/
 
+# Session backups — local only
+**/scripts/backup/
+
 # Project docs — local only
 project_context.md
 phase2_implementation_plan.md
