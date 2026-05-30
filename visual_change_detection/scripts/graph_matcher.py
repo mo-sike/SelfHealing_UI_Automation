@@ -113,18 +113,126 @@ def class_similarity(c1, c2):
     return 1.0 if c1 == c2 else 0.0
 
 
+def position_similarity(bbox1, bbox2, img_w=1080, img_h=1920):
+    """
+    Normalised position similarity between two bounding boxes.
+    Returns float [0, 1]. 1 = same position, 0 = opposite corners.
+    Targets relocate: element moved but looks identical visually.
+    """
+    if bbox1 is None or bbox2 is None:
+        return 0.5
+    cx1 = (bbox1[0] + bbox1[2]) / 2.0 / img_w
+    cy1 = (bbox1[1] + bbox1[3]) / 2.0 / img_h
+    cx2 = (bbox2[0] + bbox2[2]) / 2.0 / img_w
+    cy2 = (bbox2[1] + bbox2[3]) / 2.0 / img_h
+    dist = np.sqrt((cx1 - cx2) ** 2 + (cy1 - cy2) ** 2) / 1.414
+    return float(max(0.0, 1.0 - dist))
+
+
+def clip_similarity(emb1, emb2):
+    """
+    Cosine similarity between two L2-normalised CLIP embeddings.
+
+    Phase 2 Novelty 1 — replaces part of phash weight with CLIP.
+
+    CLIP captures semantic visual content that phash misses:
+        - Colour identity (phash is structural, CLIP sees colour)
+        - Style and texture differences
+        - Approximate semantic meaning of UI elements
+
+    Both embeddings are already L2-normalised (done in extract_clip_embedding),
+    so cosine similarity = dot product.  Range: [-1, 1].
+    Scaled to [0, 1] to match all other similarity functions.
+
+    Returns 0.5 (neutral) if either embedding is None, preserving
+    backwards compatibility when CLIP is not installed.
+    """
+    if emb1 is None or emb2 is None:
+        return 0.5   # neutral — doesn't help or hurt
+    try:
+        cos = float(np.dot(emb1, emb2))            # dot of L2-normed = cosine
+        return float(np.clip((cos + 1.0) / 2.0, 0.0, 1.0))
+    except Exception:
+        return 0.5
 # =============================================================================
 # RECURSIVE GRAPH MATCHING (Moradi et al. Algorithm)
 # =============================================================================
 
+
+# # Weights for combining similarity components
+# # Tuned to match base paper emphasis on visual + structural
+# WEIGHTS = {
+#     "visual":     0.40,   # perceptual hash
+#     "colour":     0.25,   # mean colour
+#     "text":       0.05,   # OCR text
+#     "class":      0.20,   # same class label
+#     "structural": 0.10,   # neighbourhood overlap
+# }
+
+
+# def node_similarity(G1, G2, n1, n2, depth=0, max_depth=2, memo=None):
+#     """
+#     Compute recursive similarity between node n1 in G1 and node n2 in G2.
+
+#     depth=0    : includes structural (neighbourhood) similarity
+#     depth>0    : excludes structural to prevent infinite recursion
+#     max_depth  : how deep to recurse (2 matches base paper)
+#     memo       : cache to avoid recomputing same pairs
+#     """
+#     if memo is None:
+#         memo = {}
+
+#     key = (n1, n2, depth)
+#     if key in memo:
+#         return memo[key]
+
+#     d1 = G1.nodes[n1]
+#     d2 = G2.nodes[n2]
+
+#     # ── Component similarities ─────────────────────────────────
+#     s_visual = phash_similarity(d1.get("phash"), d2.get("phash"))
+#     s_colour = colour_similarity(d1.get("mean_colour"), d2.get("mean_colour"))
+#     s_text = text_similarity(d1.get("ocr_text", ""), d2.get("ocr_text", ""))
+#     s_class = class_similarity(d1.get("class_name"), d2.get("class_name"))
+
+#     # ── Structural similarity (recursive) ─────────────────────
+#     s_structural = 0.0
+#     if depth < max_depth:
+#         nbrs1 = list(G1.neighbors(n1))
+#         nbrs2 = list(G2.neighbors(n2))
+#         if nbrs1 and nbrs2:
+#             # For each neighbour of n1, find best matching neighbour in n2
+#             scores = []
+#             for nb1 in nbrs1:
+#                 best = max(
+#                     node_similarity(G1, G2, nb1, nb2,
+#                                     depth + 1, max_depth, memo)
+#                     for nb2 in nbrs2
+#                 )
+#                 scores.append(best)
+#             s_structural = np.mean(scores) if scores else 0.0
+
+#     sim = (
+#         WEIGHTS["visual"] * s_visual +
+#         WEIGHTS["colour"] * s_colour +
+#         WEIGHTS["text"] * s_text +
+#         WEIGHTS["class"] * s_class +
+#         WEIGHTS["structural"] * s_structural
+#     )
+
+#     memo[key] = sim
+#     return sim
 # Weights for combining similarity components
-# Tuned to match base paper emphasis on visual + structural
+# Updated after Phase A3 sweep — current_baseline weights retained,
+# position added (funded by reducing colour from 0.25 → 0.15)
 WEIGHTS = {
-    "visual":     0.40,   # perceptual hash
-    "colour":     0.25,   # mean colour
+    "visual":     0.25,   # perceptual hash (reduced 0.40→0.25 — CLIP takes over part of visual role)
+    "clip":       0.15,   # CLIP semantic similarity (Phase 2 Novelty 1)
+    "colour":     0.15,   # mean colour
     "text":       0.05,   # OCR text
     "class":      0.20,   # same class label
     "structural": 0.10,   # neighbourhood overlap
+    "position":   0.10,   # spatial position (Phase C1)
 }
 
 
@@ -148,10 +256,32 @@ def node_similarity(G1, G2, n1, n2, depth=0, max_depth=2, memo=None):
     d2 = G2.nodes[n2]
 
     # ── Component similarities ─────────────────────────────────
-    s_visual = phash_similarity(d1.get("phash"), d2.get("phash"))
-    s_colour = colour_similarity(d1.get("mean_colour"), d2.get("mean_colour"))
-    s_text = text_similarity(d1.get("ocr_text", ""), d2.get("ocr_text", ""))
-    s_class = class_similarity(d1.get("class_name"), d2.get("class_name"))
+    s_visual   = phash_similarity(d1.get("phash"),           d2.get("phash"))
+    s_clip     = clip_similarity(d1.get("clip_embedding"),   d2.get("clip_embedding"))
+    s_colour   = colour_similarity(d1.get("mean_colour"),    d2.get("mean_colour"))
+    s_text     = text_similarity(d1.get("ocr_text", ""),     d2.get("ocr_text", ""))
+    s_class    = class_similarity(d1.get("class_name"),      d2.get("class_name"))
+    s_position = position_similarity(d1.get("bbox"),         d2.get("bbox"))
+
+    # ── Phase C2 (revised): colour_change penalty ─────────────
+    # phash is insensitive to hue/saturation shifts — if structure looks
+    # identical but colour has meaningfully changed, penalise visual score
+    # to push the overall similarity below the detection threshold.
+    #
+    # Revision vs original Phase C2:
+    #   - Trigger widened:  s_colour < 0.70 → s_colour < 0.75
+    #     Catches subtle colour changes (colour_dist ~0.25–0.35) that
+    #     previously escaped detection because colour_sim was just above 0.70.
+    #   - phash trigger lowered: s_visual > 0.85 → s_visual > 0.80
+    #     Enters the penalty branch even when phash is moderately high,
+    #     allowing CLIP to carry more of the detection weight.
+    #   - Penalty strength increased: * 0.70 → * 0.60
+    #     More aggressive push below detection threshold (0.85).
+    #
+    # CLIP (s_clip) already independently captures colour identity;
+    # this penalty provides a complementary structural-score correction.
+    if s_visual > 0.80 and s_colour < 0.75:
+        s_visual = s_visual * 0.60
 
     # ── Structural similarity (recursive) ─────────────────────
     s_structural = 0.0
@@ -159,7 +289,6 @@ def node_similarity(G1, G2, n1, n2, depth=0, max_depth=2, memo=None):
         nbrs1 = list(G1.neighbors(n1))
         nbrs2 = list(G2.neighbors(n2))
         if nbrs1 and nbrs2:
-            # For each neighbour of n1, find best matching neighbour in n2
             scores = []
             for nb1 in nbrs1:
                 best = max(
@@ -171,11 +300,13 @@ def node_similarity(G1, G2, n1, n2, depth=0, max_depth=2, memo=None):
             s_structural = np.mean(scores) if scores else 0.0
 
     sim = (
-        WEIGHTS["visual"] * s_visual +
-        WEIGHTS["colour"] * s_colour +
-        WEIGHTS["text"] * s_text +
-        WEIGHTS["class"] * s_class +
-        WEIGHTS["structural"] * s_structural
+        WEIGHTS["visual"]     * s_visual     +
+        WEIGHTS["clip"]       * s_clip       +
+        WEIGHTS["colour"]     * s_colour     +
+        WEIGHTS["text"]       * s_text       +
+        WEIGHTS["class"]      * s_class      +
+        WEIGHTS["structural"] * s_structural +
+        WEIGHTS["position"]   * s_position
     )
 
     memo[key] = sim
@@ -250,6 +381,15 @@ def match_graphs(G1, G2, similarity_threshold=0.5):
 # CHANGE DETECTION
 # =============================================================================
 
+# Phase C3 — post-match relocate threshold.
+# Matched pairs whose position_similarity falls below this are flagged as
+# relocated even though their overall similarity is above the change threshold.
+# position_similarity < 0.95 means the normalised centre shift is > ~0.07,
+# which is roughly a 76px horizontal or 134px vertical move on RICO images.
+# Loosened from 0.90 → 0.95 to catch smaller-distance relocations.
+RELOCATE_POSITION_THRESH = 0.95
+
+
 def detect_changes(G1, G2, similarity_threshold=0.5):
     """
     Detect changed regions between two graphs.
@@ -262,11 +402,15 @@ def detect_changes(G1, G2, similarity_threshold=0.5):
     matches, changed_nodes, added_nodes, removed_nodes, sim_matrix = \
         match_graphs(G1, G2, similarity_threshold)
 
+    # Track which G1 nodes are already flagged to avoid double-counting
+    flagged_g1 = set()
+
     changed_boxes = []
     change_details = []
 
     # Changed nodes — now tuples of (n1_id, n2_id, sim)
     for n1_id, n2_id, sim in changed_nodes:
+        flagged_g1.add(n1_id)
         box = G2.nodes[n2_id]["bbox"]
         changed_boxes.append(box)
         change_details.append({
@@ -281,6 +425,7 @@ def detect_changes(G1, G2, similarity_threshold=0.5):
 
     # Removed nodes — box from G1
     for n1_id in removed_nodes:
+        flagged_g1.add(n1_id)
         box = G1.nodes[n1_id]["bbox"]
         changed_boxes.append(box)
         change_details.append({
@@ -304,6 +449,34 @@ def detect_changes(G1, G2, similarity_threshold=0.5):
             "box_original": None,
             "box_changed":  box,
         })
+
+    # ── Phase C3: post-match relocate detection ────────────────────────────
+    # "Good" matches (sim >= threshold) that have a large position shift are
+    # relocated elements.  The overall similarity stayed high because visual /
+    # structural components dominate; position weight alone (0.10) was not
+    # enough to push them below the threshold.
+    for n1_id, n2_id, sim in matches:
+        if sim < similarity_threshold:
+            continue                        # already in changed_nodes
+        if n1_id in flagged_g1:
+            continue                        # already flagged by another rule
+        d1 = G1.nodes[n1_id]
+        d2 = G2.nodes[n2_id]
+        pos_sim = position_similarity(d1.get("bbox"), d2.get("bbox"))
+        if pos_sim < RELOCATE_POSITION_THRESH:
+            flagged_g1.add(n1_id)
+            box = G2.nodes[n2_id]["bbox"]
+            changed_boxes.append(box)
+            change_details.append({
+                "type":           "changed",   # classifier will label as relocate
+                "node_g1":        n1_id,
+                "node_g2":        n2_id,
+                "similarity":     sim,
+                "position_sim":   pos_sim,
+                "class":          d1["class_name"],
+                "box_original":   d1["bbox"],
+                "box_changed":    d2["bbox"],
+            })
 
     changed_boxes = nms_boxes(changed_boxes, iou_threshold=0.4)
 
@@ -428,8 +601,8 @@ def process_pair(model, image1_path, image2_path, output_dir,
     # Detect + build graphs
     det1 = run_yolo(model, img1)
     det2 = run_yolo(model, img2)
-    G1 = build_graph(img1, det1, extract_ocr=extract_ocr)
-    G2 = build_graph(img2, det2, extract_ocr=extract_ocr)
+    G1 = build_graph(img1, det1, extract_ocr=extract_ocr, extract_clip=True)
+    G2 = build_graph(img2, det2, extract_ocr=extract_ocr, extract_clip=True)
 
     # Match + detect changes
     changed_boxes, change_details, match_result = detect_changes(
@@ -516,9 +689,9 @@ def evaluate_batch(model_path, pairs_dir, manifest_path, output_dir,
         with open(gt_path) as f:
             gt = json.load(f)
 
-        result["gt_change_type"] = gt["change_type"]
+        result["gt_change_type"] = gt.get("change_type", "interaction")
         result["gt_boxes"] = [
-            c["changed_box"] for c in gt["changes"]
+            c["changed_box"] for c in gt.get("changes", [])
             if c.get("changed_box")
         ]
         all_results.append(result)

@@ -10,21 +10,29 @@ What this does:
     4. Creates 80/10/10 train/val/test split
     5. Writes dataset.yaml ready for Kaggle training
 
+    Two sampling modes:
+        Default (random):    random sample of 4000 valid images
+        Stratified:          quota-based sampling to balance rare classes
+                             use --stratify flag
+
 Usage:
     # Step A - always explore first
-    python scripts/step1_explore_rico.py --rico_dir ./data/rico --explore_only
+    python scripts/explore_rico.py --rico_dir ./data/rico --explore_only
 
-    # Step B - full processing
-    python scripts/step1_explore_rico.py --rico_dir ./data/rico --output_dir ./outputs/rico_yolo_dataset
+    # Step B - full processing (random sampling, same as before)
+    python scripts/explore_rico.py --rico_dir ./data/rico --output_dir ./outputs/rico_yolo_dataset
+
+    # Step B - stratified sampling (better class balance)
+    python scripts/explore_rico.py --rico_dir ./data/rico --output_dir ./outputs/rico_yolo_dataset --stratify
 
 Expected output (Step B):
     outputs/rico_yolo_dataset/
-        images/train/    ~3165 images
-        images/val/      ~386  images
-        images/test/     ~391  images
-        labels/train/    ~3165 .txt files
-        labels/val/      ~386  .txt files
-        labels/test/     ~391  .txt files
+        images/train/    ~3200 images
+        images/val/      ~400  images
+        images/test/     ~400  images
+        labels/train/    matching .txt files
+        labels/val/
+        labels/test/
         dataset.yaml     YOLOv8 config
         summary.json     Stats
 """
@@ -113,6 +121,34 @@ TARGET_CLASSES = [
 ]
 CLASS_TO_IDX = {c: i for i, c in enumerate(TARGET_CLASSES)}
 
+# =============================================================================
+# STRATIFIED SAMPLING QUOTAS
+# =============================================================================
+# These quotas define the minimum number of images to include that contain
+# at least one instance of each rare class. Values are tuned based on the
+# observed imbalance (button=0.4%, checkbox=0.3% in random sampling).
+#
+# Strategy:
+#   - Rare classes (button, checkbox, input, card, menu): fill quotas first
+#   - Common classes (text, image, icon, toolbar, list_item): fill remainder
+#   - text is deliberately capped to prevent it dominating again
+#
+# Total target: 4000 images
+# Quota images: ~1600 (40%) selected for rare class coverage
+# Random fill:  ~2400 (60%) random from remainder
+
+STRATIFY_QUOTAS = {
+    # Phase B (v3) — 6000 images, tighter quotas for rare classes
+    # Previously (v2, 4000 images): button=500, checkbox=300, input=400, card=300, menu=200
+    "button":    800,   # v2=500  → more button coverage for mAP recovery
+    "checkbox":  500,   # v2=300  → checkbox mAP was only 0.049
+    "input":     600,   # v2=400  → input mAP was 0.393, needs more samples
+
+    "card":      500,   # v2=300  → card mAP dropped -10% in v2, needs boost
+    "menu":      300,   # v2=200  → slight boost
+    # text/image/icon/toolbar/list_item: filled by random remainder
+}
+
 
 # =============================================================================
 # JSON PARSER
@@ -167,7 +203,6 @@ def parse_rico_annotation(json_path):
         for key in ["componentLabel", "class", "type", "widget_class"]:
             val = node.get(key, "")
             if val:
-                # Strip Java package path: android.widget.Button -> Button
                 return val.split(".")[-1].strip()
         return ""
 
@@ -321,16 +356,94 @@ def explore_rico(rico_dir, sample_n=100):
 
 
 # =============================================================================
+# STRATIFIED SAMPLING
+# =============================================================================
+
+def get_image_classes(comps):
+    """Return set of target classes present in a component list."""
+    classes = set()
+    for c in comps:
+        t = map_to_target(c["class_name"])
+        if t:
+            classes.add(t)
+    return classes
+
+
+def stratified_sample(valid_with_classes, target_count=4000, seed=42):
+    """
+    Stratified sampling to ensure rare classes are well represented.
+
+    Algorithm:
+        1. For each rare class in STRATIFY_QUOTAS, collect all images
+           that contain that class, shuffle, take up to quota amount
+        2. Union all quota-selected images (deduplicated)
+        3. Fill remaining slots randomly from images not yet selected
+        4. Shuffle final selection
+
+    Args:
+        valid_with_classes : list of dicts, each with 'classes' set added
+        target_count       : total images to select
+
+    Returns:
+        selected : list of sample dicts, length = target_count (or less)
+    """
+    random.seed(seed)
+
+    # Build per-class index
+    class_to_images = defaultdict(list)
+    for item in valid_with_classes:
+        for cls in item["classes"]:
+            class_to_images[cls].append(item)
+
+    print("\n[INFO] Images available per rare class:")
+    for cls, quota in STRATIFY_QUOTAS.items():
+        available = len(class_to_images[cls])
+        print(f"  {cls:<12} available={available:>6}  quota={quota}")
+
+    # Fill quotas for rare classes
+    selected_ids = set()
+    selected     = []
+
+    for cls, quota in STRATIFY_QUOTAS.items():
+        candidates = [
+            item for item in class_to_images[cls]
+            if item["img_id"] not in selected_ids
+        ]
+        random.shuffle(candidates)
+        take = candidates[:quota]
+        for item in take:
+            selected_ids.add(item["img_id"])
+            selected.append(item)
+
+    print(f"\n[INFO] Quota selection: {len(selected)} images covering rare classes")
+
+    # Fill remainder randomly
+    remainder = [
+        item for item in valid_with_classes
+        if item["img_id"] not in selected_ids
+    ]
+    random.shuffle(remainder)
+    still_needed = target_count - len(selected)
+    selected += remainder[:still_needed]
+
+    print(f"[INFO] Random fill:     {min(still_needed, len(remainder))} images")
+    print(f"[INFO] Total selected:  {len(selected)} images")
+
+    random.shuffle(selected)
+    return selected
+
+
+# =============================================================================
 # DATASET CURATION
 # =============================================================================
 
 def curate_dataset(rico_dir, output_dir, target_count=4000,
-                   min_components=3, seed=42):
+                   min_components=3, seed=42, stratify=False):
     """Curate RICO subset and write YOLO-format dataset."""
-    rico_dir = Path(rico_dir)
-    output_dir = Path(output_dir)
+    rico_dir    = Path(rico_dir)
+    output_dir  = Path(output_dir)
     screens_dir = rico_dir / "combined"
-    annots_dir = rico_dir / "semantic_annotations"
+    annots_dir  = rico_dir / "semantic_annotations"
 
     for d in [screens_dir, annots_dir]:
         if not d.exists():
@@ -338,10 +451,11 @@ def curate_dataset(rico_dir, output_dir, target_count=4000,
             return False
 
     print(f"\n[INFO] Scanning RICO at {rico_dir} ...")
+    print(f"[INFO] Sampling mode: {'STRATIFIED' if stratify else 'RANDOM'}")
     all_jsons = sorted(annots_dir.glob("*.json"))
     print(f"[INFO] {len(all_jsons)} annotation files found")
 
-    valid = []
+    valid   = []
     skipped = 0
 
     for jp in all_jsons:
@@ -354,36 +468,60 @@ def curate_dataset(rico_dir, output_dir, target_count=4000,
             skipped += 1
             continue
         mapped_count = len(
-            [c for c in comps if map_to_target(c["class_name"])])
+            [c for c in comps if map_to_target(c["class_name"])]
+        )
         if mapped_count < min_components:
             skipped += 1
             continue
-        valid.append({
+
+        entry = {
             "img_id":    jp.stem,
             "img_path":  str(img_path),
-            "json_path": str(jp)
-        })
+            "json_path": str(jp),
+        }
+        if stratify:
+            entry["classes"] = get_image_classes(comps)
+
+        valid.append(entry)
 
     print(f"[INFO] Valid: {len(valid)}  Skipped: {skipped}")
 
+    # ── Sampling ───────────────────────────────────────────────
     random.seed(seed)
-    if len(valid) > target_count:
-        valid = random.sample(valid, target_count)
-        print(f"[INFO] Sampled down to {target_count}")
-    random.shuffle(valid)
+    if stratify:
+        selected = stratified_sample(valid, target_count, seed)
+    else:
+        if len(valid) > target_count:
+            selected = random.sample(valid, target_count)
+            print(f"[INFO] Random sampled down to {target_count}")
+        else:
+            selected = valid
+        random.shuffle(selected)
 
-    n = len(valid)
+    # ── Preview class coverage before writing ──────────────────
+    if stratify:
+        print("\n[INFO] Estimated class coverage in selected set:")
+        class_counts = Counter()
+        for item in selected:
+            for cls in item.get("classes", set()):
+                class_counts[cls] += 1
+        for cls in TARGET_CLASSES:
+            print(f"  {cls:<12} {class_counts.get(cls, 0):>5} images contain this class")
+
+    # ── Split ──────────────────────────────────────────────────
+    n = len(selected)
     splits = {
-        "train": valid[:int(n * 0.8)],
-        "val":   valid[int(n * 0.8):int(n * 0.9)],
-        "test":  valid[int(n * 0.9):]
+        "train": selected[:int(n * 0.8)],
+        "val":   selected[int(n * 0.8):int(n * 0.9)],
+        "test":  selected[int(n * 0.9):]
     }
-    print("[INFO] Splits:", {k: len(v) for k, v in splits.items()})
+    print("\n[INFO] Splits:", {k: len(v) for k, v in splits.items()})
 
     for split in ["train", "val", "test"]:
         (output_dir / "images" / split).mkdir(parents=True, exist_ok=True)
         (output_dir / "labels" / split).mkdir(parents=True, exist_ok=True)
 
+    # ── Write images and labels ────────────────────────────────
     print("[INFO] Writing images and labels ...")
     stats = defaultdict(int)
 
@@ -413,10 +551,11 @@ def curate_dataset(rico_dir, output_dir, target_count=4000,
 
     print("[INFO] Processing stats:", dict(stats))
 
-    # Write dataset.yaml
+    # ── Write dataset.yaml ─────────────────────────────────────
     abs_path = str(output_dir.resolve()).replace("\\", "/")
     yaml_content = f"""# RICO Android UI Dataset - Visual Change Detection Project
 # Generated by step1_explore_rico.py
+# Sampling mode: {'stratified' if stratify else 'random'}
 # NOTE: Update 'path' to Kaggle input path before uploading to Kaggle
 #   Kaggle path: /kaggle/input/rico-yolo-ui-dataset
 
@@ -443,12 +582,14 @@ names:
 
     with open(output_dir / "summary.json", "w") as f:
         json.dump({
-            "splits": {k: len(v) for k, v in splits.items()},
-            "stats":  dict(stats)
+            "splits":   {k: len(v) for k, v in splits.items()},
+            "stats":    dict(stats),
+            "stratify": stratify,
         }, f, indent=2)
 
     print(f"\n[DONE] Dataset written to: {output_dir}")
     print(f"[DONE] dataset.yaml path:   {abs_path}")
+    print(f"[DONE] Sampling mode:       {'stratified' if stratify else 'random'}")
     print("[DONE] Next step: run step2_generate_changes.py")
     return True
 
@@ -468,9 +609,13 @@ def main():
     parser.add_argument("--explore_only",   action="store_true",
                         help="Only run exploration, no file writing")
     parser.add_argument("--target_count",   type=int, default=4000,
-                        help="How many images to curate")
+                        help="How many images to curate (default: 4000)")
     parser.add_argument("--min_components", type=int, default=3,
                         help="Minimum mapped components required per image")
+    parser.add_argument("--stratify",       action="store_true",
+                        help="Use stratified sampling to balance rare classes "
+                             "(button, checkbox, input, card, menu). "
+                             "Recommended for improving mAP on rare classes.")
     args = parser.parse_args()
 
     if args.explore_only:
@@ -481,7 +626,8 @@ def main():
             rico_dir=args.rico_dir,
             output_dir=args.output_dir,
             target_count=args.target_count,
-            min_components=args.min_components
+            min_components=args.min_components,
+            stratify=args.stratify,
         )
 
 

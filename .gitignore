@@ -2,3 +2,43 @@ venv/
 .venv/
 **/outputs/
 **/__pycache__/
+*.pyc
+
+# RICO dataset — stored at C:\dataset\rico_dir\ (not in project)
+**/data/
+
+# YOLO training run artifacts
+**/runs/
+
+# Real data — all of it (local only)
+**/real_data/
+
+# Locator inputs — local only
+**/inputs/
+
+# Session backups — local only
+**/scripts/backup/
+
+# Data collection, evaluation & scratch scripts — local only
+**/scripts/evaluate.py
+**/scripts/step10_prioritise.py
+**/scripts/sweep_threshold.py
+**/scripts/sweep_weights.py
+**/scripts/step11_collect_real_pairs.py
+**/scripts/step12_annotate_ui_diff.py
+**/scripts/step13_build_real_dataset.py
+**/scripts/step2b_extract_trace_pairs.py
+**/scripts/test.py
+
+# Project docs — local only
+project_context.md
+phase2_implementation_plan.md
+CLAUDE.md
+RUN_COMMANDS*.md
+
+# Stray / OS files
+📌
+Thumbs.db
+.DS_Store
+*.zip
+*.tar.gz

@@ -1,0 +1,37 @@
+# ── Python environment ────────────────────────────────────────────────────────
+venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ── Large generated outputs (GBs — never commit) ──────────────────────────────
+outputs/
+
+# ── RICO dataset & YOLO training artifacts ────────────────────────────────────
+data/          # RICO dataset — public, link separately
+runs/          # YOLO val/detect training runs
+
+# ── Real-data collection — raw only (pairs/ is kept) ─────────────────────────
+real_data/apks/
+real_data/antennapod/raw/
+real_data/briar/raw/
+real_data/davx5/raw/
+real_data/feeder/raw/
+real_data/fossifycalendar/raw/
+real_data/fossifygallery/raw/
+real_data/newpipe/raw/
+real_data/nextcloud/raw/
+real_data/tusky/raw/
+real_data/vlc/raw/
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+*.xpynb
+kaggle_notebooks/
+*.zip
+*.tar.gz
+*.egg-info/
+.DS_Store
+Thumbs.db

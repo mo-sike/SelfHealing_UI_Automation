@@ -63,6 +63,45 @@ except ImportError:
     print("[WARN] pytesseract not installed — OCR disabled")
     print("       pip install pytesseract  (also install Tesseract binary)")
 
+# Phase 2 Novelty 1 — CLIP semantic visual similarity
+# Install: pip install git+https://github.com/openai/CLIP.git
+try:
+    import clip
+    import torch
+    CLIP_OK = True
+except ImportError:
+    CLIP_OK = False
+    # Silent — checked at runtime; only warn when extract_clip=True is requested
+
+
+# =============================================================================
+# CLIP MODEL CACHE  (loaded once, reused across all build_graph calls)
+# =============================================================================
+
+_CLIP_MODEL      = None
+_CLIP_PREPROCESS = None
+_CLIP_DEVICE     = None
+
+
+def load_clip_model():
+    """
+    Load CLIP ViT-B/32 once and cache globally.
+    Uses GPU if available, falls back to CPU.
+    Typical load time: ~2 s.  Subsequent calls are instant.
+    """
+    global _CLIP_MODEL, _CLIP_PREPROCESS, _CLIP_DEVICE
+    if _CLIP_MODEL is not None:
+        return _CLIP_MODEL, _CLIP_PREPROCESS, _CLIP_DEVICE
+
+    if not CLIP_OK:
+        return None, None, None
+
+    _CLIP_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+    _CLIP_MODEL, _CLIP_PREPROCESS = clip.load("ViT-B/32", device=_CLIP_DEVICE)
+    _CLIP_MODEL.eval()
+    print(f"[INFO] CLIP ViT-B/32 loaded on {_CLIP_DEVICE}")
+    return _CLIP_MODEL, _CLIP_PREPROCESS, _CLIP_DEVICE
+
 from ultralytics import YOLO
 
 
@@ -126,18 +165,64 @@ def extract_mean_colour(crop_bgr):
     return [float(mean[0]), float(mean[1]), float(mean[2])]
 
 
+def extract_clip_embedding(crop_bgr):
+    """
+    Compute a CLIP ViT-B/32 image embedding for a UI element crop.
+
+    Returns a L2-normalised 512-dim numpy float32 vector, or None if
+    CLIP is not installed or the crop is too small.
+
+    The embedding captures semantic visual content: colour, shape, style,
+    and approximate meaning — far richer than perceptual hash which only
+    captures structural layout.
+
+    Performance: ~5 ms/crop on GPU (GTX 1660 Ti), ~20 ms on CPU.
+    Model is loaded once and cached globally.
+    """
+    if not CLIP_OK:
+        return None
+    if crop_bgr is None or crop_bgr.size == 0:
+        return None
+
+    h, w = crop_bgr.shape[:2]
+    if h < 8 or w < 8:
+        # CLIP preprocessor resizes to 224×224; crops this small have no signal
+        return None
+
+    model, preprocess, device = load_clip_model()
+    if model is None:
+        return None
+
+    try:
+        # OpenCV uses BGR; CLIP expects RGB PIL image
+        pil_img    = Image.fromarray(cv2.cvtColor(crop_bgr, cv2.COLOR_BGR2RGB))
+        img_tensor = preprocess(pil_img).unsqueeze(0).to(device)
+
+        with torch.no_grad():
+            emb = model.encode_image(img_tensor)          # [1, 512]
+            emb = emb / emb.norm(dim=-1, keepdim=True)    # L2 normalise
+
+        return emb.cpu().numpy().flatten().astype(np.float32)  # (512,)
+
+    except Exception:
+        return None
+
+
 # =============================================================================
 # GRAPH BUILDER
 # =============================================================================
 
-def build_graph(image, detections, extract_ocr=True):
+def build_graph(image, detections, extract_ocr=True, extract_clip=True):
     """
     Build a spatial KNN graph from YOLO detections.
 
     Args:
-        image      : BGR numpy array
-        detections : list of dicts with keys: bbox, class_id, confidence
-        extract_ocr: whether to run OCR on each node (slower but richer)
+        image        : BGR numpy array
+        detections   : list of dicts with keys: bbox, class_id, confidence
+        extract_ocr  : whether to run OCR on each node (slow, ~2s/crop)
+        extract_clip : whether to compute CLIP embeddings (fast, ~5ms/crop on GPU)
+                       Requires: pip install git+https://github.com/openai/CLIP.git
+                       Silently skipped if CLIP is not installed.
 
     Returns:
         G : networkx.Graph with node and edge attributes
@@ -147,6 +232,11 @@ def build_graph(image, detections, extract_ocr=True):
 
     if not detections:
         return G
+
+    # Warn once if CLIP was requested but not installed
+    if extract_clip and not CLIP_OK:
+        print("[WARN] extract_clip=True but CLIP not installed — embeddings disabled")
+        print("       pip install git+https://github.com/openai/CLIP.git")
 
     # ── Add nodes ─────────────────────────────────────────────
     for i, det in enumerate(detections):
@@ -161,19 +251,21 @@ def build_graph(image, detections, extract_ocr=True):
         crop = image[y1:y2, x1:x2] if (x2 > x1 and y2 > y1) else None
 
         # Node features
-        phash      = extract_phash(crop)
-        mean_colour = extract_mean_colour(crop)
-        ocr_text   = extract_ocr_text(crop) if extract_ocr else ""
+        phash          = extract_phash(crop)
+        mean_colour    = extract_mean_colour(crop)
+        ocr_text       = extract_ocr_text(crop) if extract_ocr else ""
+        clip_embedding = extract_clip_embedding(crop) if extract_clip else None
 
         G.add_node(i, **{
-            "class_id":    det["class_id"],
-            "class_name":  CLASS_NAMES[det["class_id"]],
-            "bbox":        [x1, y1, x2, y2],
-            "centre":      (cx, cy),
-            "confidence":  det["confidence"],
-            "phash":       phash,
-            "mean_colour": mean_colour,
-            "ocr_text":    ocr_text,
+            "class_id":       det["class_id"],
+            "class_name":     CLASS_NAMES[det["class_id"]],
+            "bbox":           [x1, y1, x2, y2],
+            "centre":         (cx, cy),
+            "confidence":     det["confidence"],
+            "phash":          phash,
+            "mean_colour":    mean_colour,
+            "ocr_text":       ocr_text,
+            "clip_embedding": clip_embedding,   # 512-dim float32 or None
         })
 
     # ── Add KNN edges ──────────────────────────────────────────
